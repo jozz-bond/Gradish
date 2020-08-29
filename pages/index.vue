@@ -16,6 +16,9 @@ export default {
     Logo,
     VuesaxLogo,
   },
+  data: () => ({
+    active: "dashboard",
+  }),
 };
 </script>
 
