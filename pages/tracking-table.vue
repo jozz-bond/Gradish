@@ -1,199 +1,167 @@
-
-<script>
-// import Table-header from "~ ./tracking-table/table-header.vue";
-import "./tracking-table/table-header.vue" as T;
-
-export default {
-  components: {
-    // table-header
-  }
-}
-</script>
-
 <template>
-    <div class="container"  style="padding-top: 5rem; margin: auto; width: 800px;">
-<template>
-    <div class="center">
-      <vs-table
-        v-model="selected"
-        >
+  <div class="container" style="margin: auto; width: 900px">
+    <div>
+      <vs-table v-model="selected">
         <template #header>
           <vs-input v-model="search" border placeholder="Search" />
         </template>
-        
-
-
+        <template #thead>
+          <vs-tr>
+            <vs-th></vs-th>
+            <vs-th sort @click="users = $vs.sortData($event ,users, 'Company')">Company</vs-th>
+            <vs-th sort @click="users = $vs.sortData($event ,users, 'Role')">Job Title</vs-th>
+            <vs-th sort @click="users = $vs.sortData($event ,users, 'Level')">Level</vs-th>
+            <vs-th sort @click="users = $vs.sortData($event ,users, 'Location')">Location</vs-th>
+            <vs-th sort @click="users = $vs.sortData($event ,users, 'Status')">Status</vs-th>
+            <!-- <vs-th sort @click="users = $vs.sortData($event ,users, 'closingDate')">Id</vs-th> -->
+            <vs-th sort @click="users = $vs.sortData($event ,users, 'Process')">Process Rating</vs-th>
+            <vs-th sort @click="users = $vs.sortData($event ,users, 'Desirability')">Desirability</vs-th>
+          </vs-tr>
+        </template>
         <template #tbody>
           <vs-tr
             :key="i"
-            v-for="(tr, i) in $vs.getPage($vs.getSearch(users, search), page, max)"
+            v-for="(tr, i) in $vs.getSearch(users, search)"
             :data="tr"
-            :is-selected="!!selected.includes(tr)"
             not-click-selected
+            :is-selected="!!selected.includes(tr)"
             open-expand-only-td
           >
-            <vs-td checkbox>
-              <vs-checkbox :val="tr" v-model="selected" />
-            </vs-td>
-            <vs-td edit @click="edit = tr, editProp = 'name', editActive = true">
-              {{ tr.name }}
-            </vs-td>
-            <vs-td>
-            {{ tr.email }}
-            </vs-td>
-            <vs-td>
-            {{ tr.id }}
-            </vs-td>
-
-            <template #expand>
-              <div class="con-content">
-                <div>
-                  <vs-avatar>
-                    <img :src="`/avatars/avatar-${i + 1}.png`" alt="">
-                  </vs-avatar>
-                  <p>
-                    {{ tr.name }}
-                  </p>
-                </div>
-                <div>
-                  <vs-button flat icon>
-                    <i class='bx bx-lock-open-alt' ></i>
-                  </vs-button>
-                  <vs-button flat icon>
-                    Send Email
-                  </vs-button>
-                  <vs-button border danger>
-                    Remove User
-                  </vs-button>
-                </div>
-              </div>
-            </template>
+            <vs-td></vs-td>
+            <vs-td
+              edit
+              @click="edit = tr, editProp = 'Company', editActive = true"
+            >{{ tr.Company}}</vs-td>
+            <vs-td
+              edit
+              @click="edit = tr, editProp = 'Role', editActive = true"
+            >{{ tr.Role }}</vs-td>
+            <vs-td
+              edit
+              @click="edit = tr, editProp = 'Level', editActive = true"
+            >{{ tr.Level }}</vs-td>
+            <vs-td
+              edit
+              @click="edit = tr, editProp = 'Location', editActive = true"
+            >{{ tr.Location }}</vs-td>
+            <vs-td
+              edit
+              @click="edit = tr, editProp = 'Status', editActive = true"
+            >{{ tr.Status }}</vs-td>
+            <vs-td
+              edit
+              @click="edit = tr, editProp = 'Process', editActive = true"
+            >{{ tr.Process }}</vs-td>
+            <vs-td
+              edit
+              @click="edit = tr, editProp = 'Desirability', editActive = true"
+            >{{ tr.Desirability }}</vs-td>
           </vs-tr>
-        </template>
-        <template #footer>
-          <vs-pagination v-model="page" :length="$vs.getLength($vs.getSearch(users, search), max)" />
         </template>
       </vs-table>
 
       <vs-dialog v-model="editActive">
-        <template #header>
-            Change Prop {{ editProp }}
-        </template>
-        <vs-input @keypress.enter="editActive = false" v-if="editProp == 'email'" v-model="edit[editProp]" />
-        <vs-select @change="editActive = false" block v-if="editProp == 'name'" placeholder="Select" v-model="edit[editProp]">
-          <vs-option label="Vuesax" value="Vuesax">
-            Vuesax
-          </vs-option>
-          <vs-option label="Vue" value="Vuejs">
-            Vue
-          </vs-option>
-          <vs-option label="Javascript" value="Javascript">
-            Javascript
-          </vs-option>
-          <vs-option disabled label="Sass" value="Sass">
-            Sass
-          </vs-option>
-          <vs-option label="Typescript" value="Typescript">
-            Typescript
-          </vs-option>
-          <vs-option label="Webpack" value="Webpack">
-            Webpack
-          </vs-option>
-          <vs-option label="Nodejs" value="Nodejs">
-            Nodejs
-          </vs-option>
-        </vs-select>
+        <template #header>Edit {{ editProp }}</template>
+        <vs-input
+          @keypress.enter="editActive = false"
+          v-if="editProp == 'Company'"
+          v-model="edit[editProp]"
+        />
+        <vs-input
+          @keypress.enter="editActive = false"
+          v-if="editProp == 'Role'"
+          v-model="edit[editProp]"
+        />
+        <vs-input
+          @keypress.enter="editActive = false"
+          v-if="editProp == 'Level'"
+          v-model="edit[editProp]"
+        />
+        <vs-input
+          @keypress.enter="editActive = false"
+          v-if="editProp == 'Location'"
+          v-model="edit[editProp]"
+        />
+        <vs-input
+          @keypress.enter="editActive = false"
+          v-if="editProp == 'Status'"
+          v-model="edit[editProp]"
+        />
+        <vs-input
+          @keypress="editActive = false"
+          v-if="editProp == 'Process'"
+          v-model="edit[editProp]"
+        />
+        <vs-input
+          @keypress.enter="editActive = false"
+          v-if="editProp == 'Desirability'"
+          v-model="edit[editProp]"
+        />
       </vs-dialog>
     </div>
-  </template>
   </div>
-  </template>
-<script>
-    export default {
-      data:() => ({
-        editActive: false,
-        edit: null,
-        editProp: {},
-        search: '',
-        allCheck: false,
-        page: 1,
-        max: 5,
-        active: 0,
-        selected: [],
-        users: [
-          {
-            "id": 1,
-            "name": "Leanne Graham",
-            "username": "Bret",
-            "email": "Sincere@april.biz",
-            "website": "hildegard.org",
-          },
-          {
-            "id": 2,
-            "name": "Ervin Howell",
-            "username": "Antonette",
-            "email": "Shanna@melissa.tv",
-            "website": "anastasia.net",
-          },
-          {
-            "id": 3,
-            "name": "Clementine Bauch",
-            "username": "Samantha",
-            "email": "Nathan@yesenia.net",
-            "website": "ramiro.info",
-          },
-          {
-            "id": 4,
-            "name": "Patricia Lebsack",
-            "username": "Karianne",
-            "email": "Julianne.OConner@kory.org",
-            "website": "kale.biz",
-          },
-          {
-            "id": 5,
-            "name": "Chelsey Dietrich",
-            "username": "Kamren",
-            "email": "Lucio_Hettinger@annie.ca",
-            "website": "demarco.info",
-          },
-          {
-            "id": 6,
-            "name": "Mrs. Dennis Schulist",
-            "username": "Leopoldo_Corkery",
-            "email": "Karley_Dach@jasper.info",
-            "website": "ola.org",
-          },
-          {
-            "id": 7,
-            "name": "Kurtis Weissnat",
-            "username": "Elwyn.Skiles",
-            "email": "Telly.Hoeger@billy.biz",
-            "website": "elvis.io",
-          },
-          {
-            "id": 8,
-            "name": "Nicholas Runolfsdottir V",
-            "username": "Maxime_Nienow",
-            "email": "Sherwood@rosamond.me",
-            "website": "jacynthe.com",
-          },
-          {
-            "id": 9,
-            "name": "Glenna Reichert",
-            "username": "Delphine",
-            "email": "Chaim_McDermott@dana.io",
-            "website": "conrad.com",
-          },
-          {
-            "id": 10,
-            "name": "Clementina DuBuque",
-            "username": "Moriah.Stanton",
-            "email": "Rey.Padberg@karina.biz",
-            "website": "ambrose.net",
-          }
-        ]
-      })
-    }
-    </script>
+</template>
 
-        
+
+<script>
+export default {
+  data: () => ({
+    editActive: false,
+    edit: null,
+    editProp: {},
+    search: "",
+    allCheck: false,
+    active: 0,
+    selected: [],
+    users: [
+      {
+        Company: "Canva",
+        Role: "Product Design",
+        Level: "Internship",
+        Location: "Sydney",
+        dateApplied: "23/07/2020",
+        Status: "First round phone interview",
+        closingDate: "23/08/2020",
+        Process: "2",
+        Desirability: "4",
+      },
+      {
+        Company: "EY",
+        Role: "UX Design",
+        Level: "Internship",
+        Location: "Melbourne",
+        dateApplied: "20/07/2020",
+        Status: "Second round phone interview",
+        closingDate: "23/08/2020",
+        Process: "5",
+        Desirability: "4",
+      },
+      {
+        Company: "Google",
+        Role: "UI Design",
+        Level: "Internship",
+        Location: "Perth",
+        dateApplied: "10/07/2020",
+        Status: "Rejected",
+        closingDate: "29/08/2020",
+        Process: "2",
+        Desirability: "5",
+      },
+      {
+        Company: "Atlassian",
+        Role: "Front-end Developer",
+        Level: "Internship",
+        Location: "Sydney",
+        dateApplied: "5/07/2020",
+        Status: "Online Assessment",
+        closingDate: "9/08/2020",
+        Process: "5",
+        Desirability: "5",
+      },
+      
+    ],
+  }),
+};
+</script>
+
+
