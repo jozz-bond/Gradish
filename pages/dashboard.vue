@@ -29,7 +29,9 @@
             <img src="img_avatar.png" alt="Avatar" style="width:100%">
             <div class="container-card">
               <h3>Company list</h3> 
-                <vs-button size="xl" :active="active == 0" @click="active = 0"> XLarge </vs-button>
+                <a href="http://localhost:3000/tracking-table">
+                <vs-button size="xl" :active="active == 0" @click="active = 0"> See list</vs-button>
+                </a>
             </div>
           </div>        </div>
         <div class="column-third">
@@ -94,6 +96,10 @@ export default {
 .subtitle a {
   font-weight: 500;
   color: inherit;
+}
+
+a{
+  text-decoration: none;
 }
 
 .column-third {
