@@ -1,3 +1,15 @@
+
+<script>
+// import Table-header from "~ ./tracking-table/table-header.vue";
+import "./tracking-table/table-header.vue" as T;
+
+export default {
+  components: {
+    // table-header
+  }
+}
+</script>
+
 <template>
     <div class="container"  style="padding-top: 5rem; margin: auto; width: 800px;">
 <template>
@@ -8,25 +20,9 @@
         <template #header>
           <vs-input v-model="search" border placeholder="Search" />
         </template>
-        <template #thead>
-          <vs-tr>
-            <vs-th>
-              <vs-checkbox
-                :indeterminate="selected.length == users.length" v-model="allCheck"
-                @change="selected = $vs.checkAll(selected, users)"
-              />
-            </vs-th>
-            <vs-th sort @click="users = $vs.sortData($event ,users, 'name')">
-              Name
-            </vs-th>
-            <vs-th sort @click="users = $vs.sortData($event ,users, 'email')">
-              Email
-            </vs-th>
-            <vs-th sort @click="users = $vs.sortData($event ,users, 'id')">
-              Id
-            </vs-th>
-          </vs-tr>
-        </template>
+        
+
+
         <template #tbody>
           <vs-tr
             :key="i"
